@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mécanique Moderne de Douai — Usinage de Précision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  /* ===================================================
+     PALETTE ORIGINALE — BLEU MARINE + GRIS + BLANC
+     Si tu veux changer les couleurs, modifie ces variables :
+  =================================================== */
+  :root {
+    --bleu-fonce:   #0d2b52;   /* Fond foncé, nav */
+    --bleu-moyen:   #1a4a8a;   /* Sections alternées */
+    --bleu-clair:   #2a6fc4;   /* Accent / liens */
+    --bleu-vif:     #3a8fd8;   /* Boutons hover */
+    --gris-fonce:   #2c2c2c;   /* Texte principal */
+    --gris-moyen:   #5a5a5a;   /* Texte secondaire */
+    --gris-clair:   #a0a0a0;   /* Texte discret */
+    --gris-bg:      #f4f5f7;   /* Fond sections claires */
+    --blanc:        #ffffff;
+    --orange:       #e07b20;   /* Accent chaud, CTA */
+    --orange-hover: #f59030;
+    --bordure:      rgba(26,74,138,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--blanc);
+    color: var(--gris-fonce);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ===================== NAV ===================== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: var(--bleu-fonce);
+    border-bottom: 3px solid var(--orange);
+    transition: padding .3s;
+  }
+  nav.scrolled { padding: 1rem 4rem; box-shadow: 0 2px 20px rgba(0,0,0,0.25); }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    color: var(--blanc);
+    text-decoration: none;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .logo-img {
+    /* IMAGE LOGO — voir section Images ci-dessous */
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.1);
+    border: 1px dashed rgba(255,255,255,0.4);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.45rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    line-height: 1.3;
+    flex-shrink: 0;
+  }
+  .logo span { color: var(--orange); }
+  .logo sub {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.42rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.55);
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color .25s;
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--orange);
+    transition: width .3s;
+  }
+  .nav-links a:hover { color: var(--blanc); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ===================== HERO ===================== */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--bleu-fonce);
+    padding-top: 80px;
+  }
+  .hero-bg-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(13,43,82,0.95) 40%, rgba(26,74,138,0.7) 100%);
+  }
+
+  /* ── IMAGE HERO (fond) ── */
+  /*
+   * 📸 IMAGE #1 — hero-bg.jpg
+   * Remplace le dégradé bleu par une vraie photo d'atelier.
+   * Résolution recommandée : 1920×1080px minimum
+   * Nom du fichier       : hero-bg.jpg
+   * Emplacement GitHub   : /images/hero-bg.jpg
+   * Pour activer        : décommente la ligne background-image ci-dessous dans .hero-bg-image
+  */
+  .hero-bg-image {
+    position: absolute; inset: 0;
+    /* background-image: url('images/hero-bg.jpg'); */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 4rem;
+    max-width: 800px;
+  }
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fade-up .8s .2s forwards;
+  }
+  .hero-eyebrow .bar { width: 50px; height: 2px; background: var(--orange); }
+  .hero-eyebrow span {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 400;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 10rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    color: var(--blanc);
+    opacity: 0;
+    animation: fade-up .9s .4s forwards;
+  }
+  .hero-title .stroke {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--orange);
+  }
+  .hero-tagline {
+    margin-top: 2rem;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.65);
+    max-width: 500px;
+    opacity: 0;
+    animation: fade-up .8s .65s forwards;
+  }
+  .hero-cta {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fade-up .8s .85s forwards;
+  }
+  .btn-primary {
+    padding: .9rem 2.2rem;
+    background: var(--orange);
+    color: var(--blanc);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--orange);
+    display: inline-block;
+    transition: background .25s, transform .2s;
+  }
+  .btn-primary:hover { background: var(--orange-hover); border-color: var(--orange-hover); transform: translateY(-2px); }
+  .btn-outline {
+    padding: .9rem 2.2rem;
+    background: transparent;
+    color: var(--blanc);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid rgba(255,255,255,0.35);
+    display: inline-block;
+    transition: border-color .25s, color .25s;
+  }
+  .btn-outline:hover { border-color: var(--blanc); color: var(--blanc); }
+
+  .hero-stats {
+    position: absolute;
+    right: 4rem; bottom: 5rem;
+    display: flex;
+    gap: 3rem;
+    z-index: 2;
+    opacity: 0;
+    animation: fade-up .9s 1.1s forwards;
+  }
+  .stat {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-top: 3px solid var(--orange);
+  }
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; line-height: 1;
+    color: var(--blanc);
+  }
+  .stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-top: 0.4rem;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(25px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============= SECTION BASE ============= */
+  section { position: relative; overflow: hidden; }
+  .section-label {
+    display: flex; align-items: center; gap: .8rem; margin-bottom: 1.2rem;
+  }
+  .section-label .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: .8rem; color: var(--orange); letter-spacing: .1em;
+  }
+  .section-label .bar { width: 35px; height: 2px; background: var(--orange); }
+  .section-label .tag {
+    font-size: .62rem; letter-spacing: .28em;
+    text-transform: uppercase; color: var(--gris-clair);
+  }
+
+  /* ============= PRÉSENTATION ============= */
+  #presentation {
+    background: var(--gris-bg);
+    padding: 8rem 4rem;
+  }
+  .pres-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .pres-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+    line-height: .95;
+    color: var(--bleu-fonce);
+    margin-bottom: 2rem;
+  }
+  .pres-title em {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--bleu-moyen);
+  }
+  .pres-text {
+    font-size: .9rem; line-height: 1.9;
+    color: var(--gris-moyen); margin-bottom: 1.2rem;
+  }
+  .pres-text strong { color: var(--gris-fonce); font-weight: 400; }
+
+  /* ── IMAGE PRÉSENTATION ── */
+  /*
+   * 📸 IMAGE #2 — atelier.jpg
+   * Photo de l'atelier ou de la façade de l'entreprise.
+   * Résolution recommandée : 800×600px minimum
+   * Nom du fichier       : atelier.jpg
+   * Emplacement GitHub   : /images/atelier.jpg
+   * Pour activer         : retire le commentaire dans .img-atelier src
+  */
+  .img-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #d8e4f0, #b8ccde);
+    border: 2px dashed var(--bleu-clair);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    color: var(--bleu-moyen);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .img-placeholder::before {
+    content: '📸';
+    font-size: 2.5rem;
+  }
+  .img-placeholder .img-name {
+    font-family: 'DM Sans', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--bleu-moyen);
+  }
+  .img-placeholder .img-hint {
+    font-size: 0.62rem;
+    color: var(--gris-clair);
+    letter-spacing: 0.05em;
+  }
+  /* Pour remplacer le placeholder par une vraie image : */
+  /* <img src="images/atelier.jpg" alt="Atelier MMD" class="img-real"> */
+  .img-real {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 2px;
+    display: block;
+  }
+
+  .pres-quote {
+    margin-top: 2.5rem;
+    padding: 1.8rem 2rem 1.8rem 2.2rem;
+    border-left: 3px solid var(--bleu-moyen);
+    background: rgba(26,74,138,0.05);
+  }
+  .pres-quote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--bleu-moyen);
+  }
+
+  /* Timeline */
+  .timeline { position: relative; padding-left: 2.5rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--bleu-moyen), transparent);
+  }
+  .timeline-item {
+    position: relative; margin-bottom: 2.8rem;
+    opacity: 0; transform: translateX(15px);
+    transition: opacity .5s, transform .5s;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .timeline-item::before {
+    content: ''; position: absolute;
+    left: -2.5rem; top: .35rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--orange);
+    transform: translateX(-4px);
+    box-shadow: 0 0 0 3px rgba(224,123,32,0.25);
+  }
+  .tl-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem; color: var(--bleu-moyen);
+    letter-spacing: .05em; line-height: 1;
+  }
+  .tl-text { font-size: .83rem; color: var(--gris-moyen); line-height: 1.75; margin-top: .4rem; }
+
+  /* ============= SAVOIR-FAIRE ============= */
+  #savoir-faire {
+    background: var(--bleu-fonce);
+    padding: 8rem 4rem;
+  }
+  .sf-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 5rem;
+    flex-wrap: wrap; gap: 2rem;
+  }
+  .sf-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+    line-height: .92; color: var(--blanc);
+  }
+  .sf-intro {
+    max-width: 360px;
+    font-size: .88rem; line-height: 1.9;
+    color: rgba(255,255,255,0.55);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+  .service-card {
+    background: rgba(13,43,82,0.95);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background .3s;
+    border-top: 3px solid transparent;
+  }
+  .service-card:hover { background: var(--bleu-moyen); border-top-color: var(--orange); }
+  .service-icon-wrap {
+    width: 48px; height: 48px;
+    background: rgba(224,123,32,0.12);
+    border: 1px solid rgba(224,123,32,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.8rem;
+    transition: background .3s;
+  }
+  .service-card:hover .service-icon-wrap { background: rgba(224,123,32,0.25); }
+  .service-icon-wrap svg { width: 24px; height: 24px; }
+
+  /*
+   * 📸 IMAGE #3 à #8 — icones ou photos de chaque service (optionnel)
+   * Si tu veux des photos pour chaque service plutôt que des icônes SVG :
+   * Noms fichiers : service-tournage.jpg, service-fraisage.jpg, etc.
+   * Emplacement   : /images/services/
+   * Résolution    : 600×400px recommandé
+  */
+
+  .service-num {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem; color: rgba(255,255,255,0.05);
+    line-height: 1;
+  }
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: .05em;
+    color: var(--blanc); margin-bottom: .8rem;
+  }
+  .service-desc { font-size: .8rem; line-height: 1.8; color: rgba(255,255,255,0.55); }
+  .service-tag {
+    display: inline-block; margin-top: 1.3rem;
+    font-size: .58rem; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--orange);
+    border: 1px solid rgba(224,123,32,0.35);
+    padding: .25rem .7rem;
+  }
+
+  /* ============= GALERIE MACHINES ============= */
+  #galerie {
+    background: var(--blanc);
+    padding: 8rem 4rem;
+  }
+  .galerie-header { margin-bottom: 3.5rem; }
+  .galerie-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    color: var(--bleu-fonce); line-height: .95;
+  }
+
+  /* ── GRILLE PHOTOS MACHINES ── */
+  /*
+   * 📸 IMAGES #9 à #14 — Photos du parc machine / atelier
+   * Résolution recommandée : 800×600px (paysage)
+   * Noms des fichiers :
+   *   machine-tour.jpg       → Tour CN
+   *   machine-fraiseuse.jpg  → Fraiseuse
+   *   machine-aléseuse.jpg   → Aléseuse
+   *   machine-rectif.jpg     → Rectifieuse
+   *   atelier-vue.jpg        → Vue générale atelier
+   *   pieces.jpg             → Pièces finies
+   * Emplacement GitHub : /images/machines/
+  */
+  .galerie-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 8px;
+  }
+  .galerie-item {
+    position: relative; overflow: hidden;
+    background: #c8d8e8;
+  }
+  .galerie-item:first-child {
+    grid-column: span 2;
+  }
+  .galerie-placeholder {
+    aspect-ratio: 4/3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    background: linear-gradient(135deg, #c8d8e8, #a8bcd0);
+    border: 2px dashed var(--bleu-clair);
+    position: relative;
+  }
+  .galerie-item:first-child .galerie-placeholder { aspect-ratio: 16/9; }
+  .galerie-placeholder::before { content: '📷'; font-size: 2rem; }
+  .galerie-placeholder .gal-name {
+    font-size: .7rem; font-weight: 500;
+    color: var(--bleu-moyen); letter-spacing: .08em;
+  }
+  .galerie-placeholder .gal-size {
+    font-size: .58rem; color: var(--gris-clair);
+  }
+  .galerie-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(13,43,82,0.8));
+    padding: 2rem 1.2rem .9rem;
+    color: var(--blanc);
+    font-size: .72rem;
+    letter-spacing: .05em;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .galerie-item:hover .galerie-caption { opacity: 1; }
+
+  /* ============= CAPACITÉS ============= */
+  #capacites {
+    background: var(--gris-bg);
+    padding: 8rem 4rem;
+  }
+  .cap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .cap-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.8rem);
+    color: var(--bleu-fonce); line-height: .95;
+    margin-bottom: 1.5rem;
+  }
+  .cap-text { font-size: .88rem; line-height: 1.9; color: var(--gris-moyen); margin-bottom: 1.5rem; }
+  .materials-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-top: 1.8rem;
+  }
+  .mat-item {
+    display: flex; align-items: center; gap: .7rem;
+    font-size: .8rem; color: var(--gris-fonce);
+    padding: .7rem .9rem;
+    background: var(--blanc);
+    border: 1px solid var(--bordure);
+    transition: border-color .25s;
+  }
+  .mat-item:hover { border-color: var(--bleu-clair); }
+  .mat-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .specs-table { width: 100%; border-collapse: collapse; }
+  .specs-table tr { border-bottom: 1px solid var(--bordure); }
+  .specs-table tr:first-child { border-top: 1px solid var(--bordure); }
+  .specs-table td { padding: 1.1rem 0; font-size: .85rem; }
+  .specs-table td:first-child { color: var(--gris-moyen); width: 55%; }
+  .specs-table td:last-child { color: var(--gris-fonce); font-weight: 400; }
+  .specs-table td span {
+    background: rgba(26,74,138,0.07);
+    color: var(--bleu-moyen);
+    font-size: .7rem; letter-spacing: .1em;
+    padding: .2rem .6rem;
+    border: 1px solid rgba(26,74,138,0.15);
+  }
+
+  /* ============= SECTEURS ============= */
+  #secteurs {
+    background: var(--bleu-moyen);
+    padding: 8rem 4rem;
+  }
+  .secteurs-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+    color: var(--blanc); line-height: .95;
+    margin-bottom: 4rem;
+  }
+  .secteurs-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+  .secteur-item {
+    background: rgba(13,43,82,0.5);
+    padding: 2.5rem 2rem;
+    transition: background .3s;
+    border-top: 3px solid transparent;
+  }
+  .secteur-item:hover { background: rgba(13,43,82,0.85); border-top-color: var(--orange); }
+  .secteur-icon { font-size: 2rem; margin-bottom: 1.2rem; display: block; }
+  .secteur-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem; letter-spacing: .04em;
+    color: var(--blanc); margin-bottom: .6rem;
+  }
+  .secteur-desc { font-size: .78rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+  /* ============= CONTACT ============= */
+  #contact {
+    background: var(--blanc);
+    padding: 8rem 4rem;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .contact-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+    color: var(--bleu-fonce); line-height: .95;
+    margin-bottom: 1.5rem;
+  }
+  .contact-intro { font-size: .88rem; line-height: 1.9; color: var(--gris-moyen); margin-bottom: 2.5rem; }
+  .contact-infos { display: flex; flex-direction: column; }
+  .contact-info-item {
+    display: flex; gap: 1.5rem;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--bordure);
+    align-items: flex-start;
+  }
+  .contact-info-item:first-child { border-top: 1px solid var(--bordure); }
+  .info-key {
+    font-size: .58rem; letter-spacing: .28em;
+    text-transform: uppercase; color: var(--orange);
+    min-width: 70px; padding-top: .1rem;
+  }
+  .info-val { font-size: .85rem; color: var(--gris-fonce); line-height: 1.7; }
+  .info-val a { color: var(--bleu-clair); text-decoration: none; transition: color .25s; }
+  .info-val a:hover { color: var(--orange); }
+
+  /* ── IMAGE MAP / FAÇADE ── */
+  /*
+   * 📸 IMAGE #15 — facade.jpg OU carte.jpg
+   * Photo de la façade, de l'extérieur de l'atelier, ou capture Google Maps.
+   * Résolution recommandée : 800×400px
+   * Nom du fichier       : facade.jpg
+   * Emplacement GitHub   : /images/facade.jpg
+  */
+  .map-zone {
+    margin-top: 2.5rem;
+    aspect-ratio: 2/1;
+    background: linear-gradient(135deg, #c8d8e8, #a8bcd0);
+    border: 2px dashed var(--bleu-clair);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+  }
+  .map-zone::before { content: '🗺️'; font-size: 2.2rem; }
+  .map-zone .map-label {
+    font-size: .72rem; font-weight: 500;
+    color: var(--bleu-moyen); letter-spacing: .08em;
+  }
+  .map-zone .map-sub { font-size: .62rem; color: var(--gris-clair); }
+
+  /* Formulaire */
+  .contact-form {
+    background: var(--gris-bg);
+    border: 1px solid var(--bordure);
+    border-top: 4px solid var(--bleu-moyen);
+    padding: 2.5rem;
+  }
+  .form-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: .05em;
+    color: var(--bleu-fonce); margin-bottom: 1.8rem;
+  }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .form-group label {
+    display: block;
+    font-size: .6rem; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--gris-moyen);
+    margin-bottom: .5rem;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    background: var(--blanc);
+    border: 1px solid #d0d8e4;
+    outline: none;
+    color: var(--gris-fonce);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .88rem;
+    font-weight: 300;
+    padding: .75rem 1rem;
+    resize: none;
+    transition: border-color .25s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--bleu-clair); }
+  .form-group textarea { min-height: 110px; }
+  .form-submit {
+    width: 100%;
+    padding: 1.1rem;
+    background: var(--bleu-fonce);
+    color: var(--blanc);
+    border: 2px solid var(--bleu-fonce);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .25s;
+    display: flex; align-items: center; justify-content: center; gap: .8rem;
+  }
+  .form-submit:hover { background: var(--bleu-moyen); border-color: var(--bleu-moyen); }
+  .form-submit .arrow { transition: transform .3s; }
+  .form-submit:hover .arrow { transform: translateX(6px); }
+
+  /* ============= FOOTER ============= */
+  footer {
+    background: var(--bleu-fonce);
+    border-top: 3px solid var(--orange);
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--blanc); letter-spacing: .1em; }
+  .footer-logo span { color: var(--orange); }
+  .footer-copy { font-size: .68rem; color: rgba(255,255,255,0.35); letter-spacing: .08em; }
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+  .footer-links a {
+    font-size: .68rem; color: rgba(255,255,255,0.5);
+    text-decoration: none; letter-spacing: .12em;
+    transition: color .25s;
+  }
+  .footer-links a:hover { color: var(--orange); }
+
+  /* ============= SCROLL REVEAL ============= */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s, transform .65s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ============= DIVIDER ============= */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--bleu-moyen), transparent);
+    opacity: .25;
+  }
+
+  /* ============= RESPONSIVE ============= */
+  @media (max-width: 1024px) {
+    nav { padding: 1.2rem 2rem; }
+    nav.scrolled { padding: .9rem 2rem; }
+    #hero, #presentation, #savoir-faire, #galerie, #capacites, #secteurs, #contact { padding-left: 2rem; padding-right: 2rem; }
+    .pres-inner, .cap-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .services-grid, .secteurs-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { display: none; }
+    .nav-links { display: none; }
+    footer { padding: 2rem; justify-content: center; text-align: center; }
+    .footer-links { justify-content: center; }
+    .galerie-grid { grid-template-columns: 1fr 1fr; }
+    .galerie-item:first-child { grid-column: span 2; }
+  }
+  @media (max-width: 640px) {
+    .services-grid, .secteurs-grid, .galerie-grid { grid-template-columns: 1fr; }
+    .galerie-item:first-child { grid-column: span 1; }
+    .form-row { grid-template-columns: 1fr; }
+    .materials-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =================== NAVIGATION =================== -->
+<nav id="mainNav">
+  <a href="#" class="logo">
+    <!--
+      📸 LOGO — logo.png
+      Remplace le bloc .logo-img par une vraie image.
+      Résolution : 200×200px (carré), fond transparent (PNG)
+      Fichier    : logo.png
+      GitHub     : /images/logo.png
+      HTML       : <img src="images/logo.png" alt="Logo MMD" style="height:44px">
+    -->
+    <div class="logo-img">LOGO<br>ici</div>
+    MMD<span>.</span>
+    <sub>Mécanique Moderne de Douai</sub>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#presentation">Présentation</a></li>
+    <li><a href="#savoir-faire">Savoir-faire</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#capacites">Capacités</a></li>
+    <li><a href="#secteurs">Secteurs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- =================== HERO =================== -->
+<section id="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-bg-image"></div>  <!-- 📸 IMAGE #1 : hero-bg.jpg -->
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="bar"></div>
+      <span>Depuis 1993 — Noyelles-Godault, Nord</span>
+    </div>
+    <h1 class="hero-title">
+      MÉCA<br>
+      <span class="stroke">NIQUE</span><br>
+      MODERNE
+    </h1>
+    <p class="hero-tagline">
+      Spécialiste de l'usinage de précision depuis plus de 30 ans.<br>
+      De l'outillage industriel aux pièces complexes sur mesure.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">Demander un devis</a>
+      <a href="#savoir-faire" class="btn-outline">Notre expertise →</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-number">30+</div>
+      <div class="stat-label">Années d'expérience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">500K€</div>
+      <div class="stat-label">Capital social</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">7</div>
+      <div class="stat-label">Spécialistes</div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== PRÉSENTATION =================== -->
+<section id="presentation">
+  <div class="pres-inner">
+    <div class="reveal">
+      <div class="section-label">
+        <span class="num">01</span><span class="bar"></span>
+        <span class="tag">Notre histoire</span>
+      </div>
+      <h2 class="pres-title">Une <em>tradition</em><br>de précision<br>industrielle</h2>
+      <p class="pres-text">
+        La Mécanique Moderne de Douai est issue de <strong>différents ateliers mécaniques de Douai</strong> dont la vocation, dans les années soixante, était la construction de matériel pour les <strong>mines de charbon</strong> — notamment la fabrication de trains de roues pour les berlines.
+      </p>
+      <p class="pres-text">
+        Après la fermeture des houillières, l'entreprise a su <strong>se réinventer</strong>, capitalisant sur son savoir-faire unique pour répondre aux exigences de nouveaux secteurs industriels.
+      </p>
+      <p class="pres-text">
+        Constituée en société commerciale en <strong>1993</strong> sous la direction de M. Patrice Capel, la MMD emploie <strong>7 spécialistes</strong> passionnés par le travail de la matière et la précision au micron près.
+      </p>
+      <div class="pres-quote">
+        <p>« L'excellence mécanique ne s'improvise pas. Elle se transmet, s'affine, et se renouvelle génération après génération. »</p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <!-- 📸 IMAGE #2 : atelier.jpg -->
+      <!-- Pour remplacer : retire ce bloc et décommente la balise img ci-dessous -->
+      <div class="img-placeholder">
+        <span class="img-name">images/atelier.jpg</span>
+        <span class="img-hint">Photo atelier / façade — 800×600px</span>
+      </div>
+      <!-- <img src="images/atelier.jpg" alt="Atelier MMD" class="img-real"> -->
+
+      <div style="margin-top:3rem">
+        <div class="section-label" style="margin-bottom:2rem">
+          <span class="num">—</span><span class="bar"></span>
+          <span class="tag">Jalons historiques</span>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="tl-year">1960s</div>
+            <div class="tl-text">Fondation des ateliers mécaniques à Douai. Fabrication de matériel minier : trains de roues pour berlines des houillières du Nord.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-year">1980s</div>
+            <div class="tl-text">Reconversion après fermeture des mines. Pivot vers l'usinage général et les pièces de précision pour l'industrie.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-year">1993</div>
+            <div class="tl-text">Création officielle — Capital 500 000 €. Installation au 129 rue Victor Hugo, Noyelles-Godault.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-year">Aujourd'hui</div>
+            <div class="tl-text">30 ans d'expertise, 7 spécialistes, parc machine complet, exigence qualité permanente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== SAVOIR-FAIRE =================== -->
+<section id="savoir-faire">
+  <div class="sf-header reveal">
+    <div>
+      <div class="section-label">
+        <span class="num" style="color:var(--orange)">02</span><span class="bar"></span>
+        <span class="tag" style="color:rgba(255,255,255,0.4)">Compétences techniques</span>
+      </div>
+      <h2 class="sf-title">NOTRE<br>SAVOIR-FAIRE</h2>
+    </div>
+    <p class="sf-intro">De la pièce unitaire à la série, du prototype à la réparation d'urgence, notre atelier maîtrise l'ensemble des procédés d'usinage.</p>
+  </div>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <span class="service-num">01</span>
+      <div class="service-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e07b20" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="1"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="3" y1="12" x2="1" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+      </div>
+      <div class="service-name">Tournage CN</div>
+      <p class="service-desc">Tournage de précision sur commande numérique. Pièces cylindriques, coniques, filetées. Ø de quelques mm à plus d'1 mètre.</p>
+      <span class="service-tag">Haute précision</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">02</span>
+      <div class="service-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e07b20" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/><circle cx="12" cy="12" r="2"/></svg>
+      </div>
+      <div class="service-name">Fraisage</div>
+      <p class="service-desc">Fraisage conventionnel et CN 3 axes. Plans, rainures, contours complexes. Pièces de grandes dimensions.</p>
+      <span class="service-tag">3 axes CN</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">03</span>
+      <div class="service-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e07b20" stroke-width="1.5"><circle cx="12" cy="8" r="6"/><path d="M6 8 Q6 20 12 20 Q18 20 18 8"/></svg>
+      </div>
+      <div class="service-name">Alésage</div>
+      <p class="service-desc">Alésage fin sur pièces de grandes dimensions, rectification de portées. Tolérances serrées garanties.</p>
+      <span class="service-tag">Grande dimension</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">04</span>
+      <div class="service-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e07b20" stroke-width="1.5"><path d="M3 20 L8 4 L13 12 L18 6 L23 20"/><line x1="1" y1="20" x2="23" y2="20"/></svg>
+      </div>
+      <div class="service-name">Rectification</div>
+      <p class="service-desc">Rectification plane et cylindrique. Rugosités et tolérances extrêmes pour pièces d'ajustement.</p>
+      <span class="service-tag">Ra &lt;0.8 µm</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">05</span>
+      <div class="service-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e07b20" stroke-width="1.5"><polygon points="12,2 22,8 22,16 12,22 2,16 2,8"/><polygon points="12,7 17,10 17,14 12,17 7,14 7,10"/></svg>
+      </div>
+      <div class="service-name">Montage & Ajustage</div>
+      <p class="service-desc">Assemblage de sous-ensembles mécaniques, ajustage de précision et finitions manuelles.</p>
+      <span class="service-tag">Sur mesure</span>
+    </div>
+    <div class="service-card">
+      <span class="service-num">06</span>
+      <div class="service-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e07b20" stroke-width="1.5"><rect x="3" y="7" width="18" height="12" rx="1"/><path d="M7 7 V5 M12 7 V3 M17 7 V5"/><line x1="3" y1="13" x2="21" y2="13"/></svg>
+      </div>
+      <div class="service-name">Réparation Industrielle</div>
+      <p class="service-desc">Rechargement et remise en état de pièces usées. Intervention rapide pour minimiser les arrêts de production.</p>
+      <span class="service-tag">Urgence acceptée</span>
+    </div>
+  </div>
+</section>
+
+<!-- =================== GALERIE =================== -->
+<section id="galerie">
+  <div class="galerie-header reveal">
+    <div class="section-label">
+      <span class="num">03</span><span class="bar"></span>
+      <span class="tag">Notre atelier</span>
+    </div>
+    <h2 class="galerie-title">PARC MACHINES<br>& RÉALISATIONS</h2>
+  </div>
+
+  <!--
+    📸 GALERIE — 6 photos de machines et pièces
+    Noms fichiers      : machine-tour.jpg, machine-fraiseuse.jpg,
+                         machine-alesage.jpg, machine-rectif.jpg,
+                         atelier-vue.jpg, pieces.jpg
+    Dossier GitHub     : /images/machines/
+    Résolution         : 800×600px (paysage)
+
+    Pour remplacer un placeholder, retire le div .galerie-placeholder
+    et remplace-le par :
+    <img src="images/machines/machine-tour.jpg" alt="Tour CN" class="img-real">
+  -->
+  <div class="galerie-grid reveal">
+    <div class="galerie-item">
+      <div class="galerie-placeholder">
+        <span class="gal-name">machines/atelier-vue.jpg</span>
+        <span class="gal-size">Vue générale atelier — 1200×675px</span>
+      </div>
+      <div class="galerie-caption">Vue générale de l'atelier</div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-placeholder">
+        <span class="gal-name">machines/machine-tour.jpg</span>
+        <span class="gal-size">Tour CN — 800×600px</span>
+      </div>
+      <div class="galerie-caption">Tour à commande numérique</div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-placeholder">
+        <span class="gal-name">machines/machine-fraiseuse.jpg</span>
+        <span class="gal-size">Fraiseuse — 800×600px</span>
+      </div>
+      <div class="galerie-caption">Fraiseuse CN 3 axes</div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-placeholder">
+        <span class="gal-name">machines/machine-alesage.jpg</span>
+        <span class="gal-size">Aléseuse — 800×600px</span>
+      </div>
+      <div class="galerie-caption">Aléseuse grande dimension</div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-placeholder">
+        <span class="gal-name">machines/machine-rectif.jpg</span>
+        <span class="gal-size">Rectifieuse — 800×600px</span>
+      </div>
+      <div class="galerie-caption">Rectifieuse cylindrique</div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-placeholder">
+        <span class="gal-name">machines/pieces.jpg</span>
+        <span class="gal-size">Pièces finies — 800×600px</span>
+      </div>
+      <div class="galerie-caption">Exemples de pièces usinées</div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== CAPACITÉS =================== -->
+<section id="capacites">
+  <div class="cap-grid">
+    <div class="reveal">
+      <div class="section-label" style="margin-bottom:1.2rem">
+        <span class="num">04</span><span class="bar"></span>
+        <span class="tag">Matériaux & machines</span>
+      </div>
+      <h2 class="cap-title">PARC MACHINES<br>& MATIÈRES</h2>
+      <p class="cap-text">Notre atelier est équipé de machines conventionnelles et CN permettant de traiter une large gamme de matériaux et de dimensions.</p>
+      <p class="cap-text">Chaque pièce fait l'objet d'un contrôle dimensionnel rigoureux avant expédition.</p>
+      <div class="materials-grid">
+        <div class="mat-item"><span class="mat-dot"></span> Acier carbone</div>
+        <div class="mat-item"><span class="mat-dot"></span> Acier inoxydable</div>
+        <div class="mat-item"><span class="mat-dot"></span> Acier traité</div>
+        <div class="mat-item"><span class="mat-dot"></span> Fonte grise / ductile</div>
+        <div class="mat-item"><span class="mat-dot"></span> Aluminium / alliages</div>
+        <div class="mat-item"><span class="mat-dot"></span> Cuivre / laiton</div>
+        <div class="mat-item"><span class="mat-dot"></span> Bronze industriel</div>
+        <div class="mat-item"><span class="mat-dot"></span> Matières plastiques</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <table class="specs-table">
+        <tr><td>Tour CN — Ø max.</td><td><span>∅ 1 200 mm</span></td></tr>
+        <tr><td>Tour CN — Long. max.</td><td><span>4 000 mm</span></td></tr>
+        <tr><td>Fraiseuse CN — course X</td><td><span>3 000 mm</span></td></tr>
+        <tr><td>Fraiseuse CN — course Y/Z</td><td><span>1 500 / 1 200 mm</span></td></tr>
+        <tr><td>Aléseuse — Ø broche</td><td><span>110 mm</span></td></tr>
+        <tr><td>Rectifieuse — Ø max.</td><td><span>600 mm</span></td></tr>
+        <tr><td>Tolérance dimensionnelle</td><td><span>IT6 courant</span></td></tr>
+        <tr><td>Rugosité minimale</td><td><span>Ra 0.4 µm</span></td></tr>
+        <tr><td>Capacité de levage atelier</td><td><span>10 t</span></td></tr>
+        <tr><td>Poids pièce max.</td><td><span>8 t</span></td></tr>
+        <tr><td>Contrôle — Machines de mesure</td><td><span>MMT 3D + colonne</span></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SECTEURS =================== -->
+<section id="secteurs">
+  <div class="section-label reveal" style="margin-bottom:2.5rem">
+    <span class="num" style="color:var(--orange)">05</span><span class="bar"></span>
+    <span class="tag" style="color:rgba(255,255,255,0.45)">Marchés servis</span>
+  </div>
+  <h2 class="secteurs-title reveal">DES INDUSTRIES<br>QUI FONT CONFIANCE</h2>
+  <div class="secteurs-grid reveal">
+    <div class="secteur-item"><span class="secteur-icon">⚙️</span><div class="secteur-name">Industrie générale</div><p class="secteur-desc">Outillages, gabarits, bâtis de machines, pièces d'usure.</p></div>
+    <div class="secteur-item"><span class="secteur-icon">🏗️</span><div class="secteur-name">BTP & Travaux publics</div><p class="secteur-desc">Pièces pour engins de chantier, grues, réparation de pièces usées.</p></div>
+    <div class="secteur-item"><span class="secteur-icon">🛤️</span><div class="secteur-name">Ferroviaire</div><p class="secteur-desc">Bogies, essieux, roues, bandages — héritage minier reconverti.</p></div>
+    <div class="secteur-item"><span class="secteur-icon">⚡</span><div class="secteur-name">Énergie</div><p class="secteur-desc">Composants pour turbines, éoliennes, installations hydrauliques.</p></div>
+    <div class="secteur-item"><span class="secteur-icon">🚢</span><div class="secteur-name">Naval & Portuaire</div><p class="secteur-desc">Arbres, hélices, pièces de propulsion et manutention portuaire.</p></div>
+    <div class="secteur-item"><span class="secteur-icon">🏭</span><div class="secteur-name">Sidérurgie</div><p class="secteur-desc">Cylindres de laminoir, galets, rouleaux, arbres de fours.</p></div>
+    <div class="secteur-item"><span class="secteur-icon">🌿</span><div class="secteur-name">Agro-industrie</div><p class="secteur-desc">Sucrerie, brasserie, transformation alimentaire. Inox maîtrisé.</p></div>
+    <div class="secteur-item"><span class="secteur-icon">🔬</span><div class="secteur-name">Chimie & Pharmacie</div><p class="secteur-desc">Pièces résistantes, agitateurs, réacteurs et vannes industrielles.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="background:linear-gradient(to right,transparent,#ffffff55,transparent)"></div>
+
+<!-- =================== CONTACT =================== -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <div class="section-label" style="margin-bottom:1.8rem">
+        <span class="num">06</span><span class="bar"></span>
+        <span class="tag">Nous contacter</span>
+      </div>
+      <h2 class="contact-title">PARLONS<br>DE VOTRE<br>PROJET</h2>
+      <p class="contact-intro">Devis gratuit sous 48h. Notre bureau d'études examine votre cahier des charges et revient vers vous avec une proposition technique détaillée.</p>
+      <div class="contact-infos">
+        <div class="contact-info-item"><span class="info-key">Adresse</span><span class="info-val">129 rue Victor Hugo<br>62950 Noyelles-Godault, France</span></div>
+        <div class="contact-info-item"><span class="info-key">Téléphone</span><span class="info-val"><a href="tel:+33321769507">03 21 76 95 07</a></span></div>
+        <div class="contact-info-item"><span class="info-key">Fax</span><span class="info-val">03 21 20 79 40</span></div>
+        <div class="contact-info-item"><span class="info-key">E-mail</span><span class="info-val"><a href="mailto:mmd@mecaniquemoderne.fr">mmd@mecaniquemoderne.fr</a></span></div>
+        <div class="contact-info-item"><span class="info-key">Horaires</span><span class="info-val">Lun – Ven : 7h30 → 17h00</span></div>
+      </div>
+
+      <!-- 📸 IMAGE #15 : facade.jpg -->
+      <!-- Pour remplacer : <img src="images/facade.jpg" alt="Façade MMD" class="img-real"> -->
+      <div class="map-zone" style="margin-top:2.5rem">
+        <span class="map-label">images/facade.jpg</span>
+        <span class="map-sub">Photo façade ou capture Google Maps — 800×400px</span>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="contact-form">
+        <div class="form-title">Demande de devis</div>
+        <div class="form-row">
+          <div class="form-group"><label>Prénom</label><input type="text" placeholder="Jean"></div>
+          <div class="form-group"><label>Nom</label><input type="text" placeholder="Dupont"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Entreprise</label><input type="text" placeholder="ACME Industries"></div>
+          <div class="form-group"><label>Téléphone</label><input type="tel" placeholder="03 XX XX XX XX"></div>
+        </div>
+        <div class="form-group"><label>E-mail</label><input type="email" placeholder="contact@entreprise.fr"></div>
+        <div class="form-group">
+          <label>Type de prestation</label>
+          <select>
+            <option value="">Sélectionner...</option>
+            <option>Tournage CN</option>
+            <option>Fraisage</option>
+            <option>Alésage grande dimension</option>
+            <option>Rectification</option>
+            <option>Réparation / Rechargement</option>
+            <option>Montage & Ajustage</option>
+            <option>Autre / À définir</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Description du projet</label><textarea placeholder="Décrivez votre pièce, les dimensions, les matériaux, les quantités et délais souhaités…"></textarea></div>
+        <button class="form-submit" onclick="alert('Merci ! Notre équipe vous contactera sous 48h.')">
+          <span>Envoyer la demande</span>
+          <span class="arrow">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer>
+  <div class="footer-logo">MMD<span>.</span> MÉCANIQUE MODERNE DE DOUAI</div>
+  <p class="footer-copy">© 2024 La Mécanique Moderne de Douai · SIRET 391993326 · Tous droits réservés</p>
+  <ul class="footer-links">
+    <li><a href="#presentation">Présentation</a></li>
+    <li><a href="#savoir-faire">Savoir-faire</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="mailto:mmd@mecaniquemoderne.fr">E-mail</a></li>
+  </ul>
+</footer>
+
+<!-- ========================================================
+     📘 GUIDE — COMMENT AJOUTER LES IMAGES SUR GITHUB PAGES
+     ========================================================
+     Ce commentaire est un guide intégré. Supprime-le quand tout est en place.
+
+     STRUCTURE DE TON DÉPÔT GITHUB :
+     ─────────────────────────────────────────────────────
+     mon-depot/
+     ├── index.html              ← ce fichier
+     └── images/
+         ├── logo.png            ← Logo (PNG transparent, 200×200px)
+         ├── hero-bg.jpg         ← Fond hero (1920×1080px)
+         ├── atelier.jpg         ← Photo atelier / façade (800×600px)
+         ├── facade.jpg          ← Photo façade ou Google Maps (800×400px)
+         └── machines/
+             ├── atelier-vue.jpg     (1200×675px)
+             ├── machine-tour.jpg    (800×600px)
+             ├── machine-fraiseuse.jpg
+             ├── machine-alesage.jpg
+             ├── machine-rectif.jpg
+             └── pieces.jpg
+
+     ÉTAPES POUR METTRE EN LIGNE SUR GITHUB PAGES :
+     ─────────────────────────────────────────────────────
+     1. Va sur https://github.com et crée un compte (si tu n'en as pas).
+
+     2. Crée un nouveau dépôt :
+        → Bouton vert "+ New repository"
+        → Nom suggéré : "mecaniquemoderne"
+        → Coche "Public"
+        → Clique "Create repository"
+
+     3. Upload le fichier HTML :
+        → Dans ton dépôt, clique "Add file" → "Upload files"
+        → Glisse index.html (renomme mecaniquemoderne.html en index.html)
+        → Clique "Commit changes"
+
+     4. Crée le dossier images :
+        → Clique "Add file" → "Create new file"
+        → Dans le nom, tape : images/.gitkeep
+        → Commit
+
+     5. Upload les images :
+        → Clique sur le dossier "images"
+        → "Add file" → "Upload files"
+        → Upload toutes tes photos avec les bons noms de fichiers
+
+     6. Active GitHub Pages :
+        → Va dans "Settings" (onglet en haut du dépôt)
+        → Rubrique "Pages" (menu gauche)
+        → Source : "Deploy from a branch"
+        → Branch : main / root
+        → Clique "Save"
+
+     7. Ton site sera accessible en ~2 minutes à l'adresse :
+        https://TON-PSEUDO.github.io/mecaniquemoderne/
+
+     COMMENT REMPLACER UN PLACEHOLDER PAR UNE VRAIE IMAGE :
+     ─────────────────────────────────────────────────────
+     Cherche dans le code : <!-- 📸 IMAGE #X -->
+     Chaque bloc te donne :
+       - Le nom du fichier à utiliser
+       - La résolution recommandée
+       - L'emplacement dans le dossier images/
+       - La ligne HTML à décommenter (retire les <!-- et -->)
+
+     Exemple pour l'image hero (IMAGE #1) :
+       AVANT : /* background-image: url('images/hero-bg.jpg'); */
+       APRÈS :    background-image: url('images/hero-bg.jpg');
+
+     Exemple pour la photo atelier (IMAGE #2) :
+       AVANT :
+         <div class="img-placeholder">...</div>
+         <!-- <img src="images/atelier.jpg" alt="Atelier MMD" class="img-real"> -->
+       APRÈS (retire le div, décommente l'img) :
+         <img src="images/atelier.jpg" alt="Atelier MMD" class="img-real">
+
+     RÉCAP DES 15 IMAGES À PRÉPARER :
+     ─────────────────────────────────────────────────────
+     #1  hero-bg.jpg          1920×1080  Photo d'atelier (fond hero)
+     #2  atelier.jpg           800×600   Photo atelier ou façade
+     #3  facade.jpg            800×400   Façade ou capture Google Maps
+     #4  logo.png              200×200   Logo (fond transparent)
+     #5  machines/atelier-vue.jpg       1200×675   Vue générale
+     #6  machines/machine-tour.jpg       800×600   Tour CN
+     #7  machines/machine-fraiseuse.jpg  800×600   Fraiseuse
+     #8  machines/machine-alesage.jpg    800×600   Aléseuse
+     #9  machines/machine-rectif.jpg     800×600   Rectifieuse
+     #10 machines/pieces.jpg             800×600   Pièces finies
+     ─────────────────────────────────────────────────────
+     Tu peux aussi utiliser des photos libres de droits sur :
+     https://unsplash.com → chercher "machining", "industrial workshop"
+     https://pixabay.com  → chercher "usinage", "atelier mécanique"
+     ========================================================
+-->
+
+<script>
+  // NAV scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+  // SCROLL REVEAL
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const items = e.target.querySelectorAll('.timeline-item');
+      if (items.length) {
+        items.forEach((item, i) => setTimeout(() => item.classList.add('visible'), i * 140));
+      }
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
